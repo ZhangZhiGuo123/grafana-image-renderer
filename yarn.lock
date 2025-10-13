@@ -1897,7 +1897,7 @@
     "@types/range-parser" "*"
     "@types/send" "*"
 
-"@types/express@*", "@types/express@^4.17.14":
+"@types/express@^4.17.14":
   version "4.17.21"
   resolved "https://registry.npmmirror.com/@types/express/-/express-4.17.21.tgz"
   integrity sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==
@@ -7677,7 +7677,7 @@ tar-fs@^2.1.1:
     pump "^3.0.0"
     tar-stream "^2.1.4"
 
-tar-fs@^3.0.6, tar-fs@^3.0.8:
+tar-fs@^3.0.9:
   version "3.0.10"
   resolved "https://registry.npmmirror.com/tar-fs/-/tar-fs-3.0.10.tgz"
   integrity sha512-C1SwlQGNLe/jPNqapK8epDsXME7CAJR5RL3GcE6KWx1d9OUByzoHVcbu1VPI8tevg9H8Alae0AApHHFGzrD5zA==
@@ -8346,7 +8346,7 @@ xml-parse-from-string@^1.0.0:
   resolved "https://registry.npmmirror.com/xml-parse-from-string/-/xml-parse-from-string-1.0.1.tgz"
   integrity sha512-ErcKwJTF54uRzzNMXq2X5sMIy88zJvfN2DmdoQvy7PAFJ+tPRU6ydWuOKNMyfmOjdyBQTFREi60s0Y0SyI0G0g==
 
-xml2js@^0.5.0:
+xml2js@^0.6.2:
   version "0.6.2"
   resolved "https://registry.npmmirror.com/xml2js/-/xml2js-0.6.2.tgz"
   integrity sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==
