@@ -42,4 +42,4 @@ tests/testdata/diff_*
 
 cache
 
-/devenv/docker/tracing/tempo-data/
+/devenv/docker/tracing/tempo-data/embedded_browser/chromium-linux-arm64.zip
