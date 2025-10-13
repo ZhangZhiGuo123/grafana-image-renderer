@@ -31,6 +31,24 @@ if(platform === 'macos' && (arch.includes('arm'))) {
 const outputPath = "dist/" + (process.argv[3] || `plugin-${archArg}`);
 const outputNodeModules = path.resolve(outputPath, 'node_modules');
 
+// Ensure TypeScript build exists before packaging
+const buildEntry = path.resolve('build', 'app.js');
+if (!fs.existsSync(buildEntry)) {
+  console.log('Build output not found. Running TypeScript build...');
+  try {
+    // Ensure devDependencies (like typescript) are installed
+    const hasTs = fs.existsSync(path.resolve('node_modules', '.bin', 'tsc'));
+    if (!hasTs) {
+      console.log('TypeScript compiler not found. Installing dev dependencies...');
+      childProcess.execSync('npm ci --include=dev', { stdio: 'inherit' });
+    }
+    childProcess.execSync('npm run build', { stdio: 'inherit' });
+  } catch (e) {
+    console.error('Failed to build TypeScript sources before packaging:', e && e.message ? e.message : e);
+    process.exit(1);
+  }
+}
+
 const pkgBin = path.resolve('node_modules', '.bin', process.platform === 'win32' ? 'pkg.cmd' : 'pkg');
 // Disable bytecode generation to avoid spawning target platform binaries on Windows
 // Also mark all packages public to satisfy pkg requirements when using --no-bytecode

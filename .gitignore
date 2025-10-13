@@ -42,4 +42,6 @@ tests/testdata/diff_*
 
 cache
 
-/devenv/docker/tracing/tempo-data/embedded_browser/chromium-linux-arm64.zip
+# Do not commit embedded browser assets
+embedded_browser/
+devenv/docker/tracing/tempo-data/embedded_browser/chromium-linux-arm64.zip
