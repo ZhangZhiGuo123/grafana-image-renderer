@@ -1,0 +1,9 @@
+$ErrorActionPreference = 'Stop'
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepoRoot = Resolve-Path (Join-Path $ScriptDir '..')
+if (-not $env:CONFIG) { $env:CONFIG = 'default.json' }
+if (-not $env:HTTP_HOST) { $env:HTTP_HOST = '127.0.0.1' }
+if (-not $env:HTTP_PORT) { $env:HTTP_PORT = '8081' }
+if (-not $env:LOG_LEVEL) { $env:LOG_LEVEL = 'info' }
+$ConfigPath = Join-Path $RepoRoot $env:CONFIG
+node (Join-Path $RepoRoot 'build/app.js') server --config=$ConfigPath
