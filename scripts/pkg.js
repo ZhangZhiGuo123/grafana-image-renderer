@@ -32,7 +32,10 @@ const outputPath = "dist/" + (process.argv[3] || `plugin-${archArg}`);
 const outputNodeModules = path.resolve(outputPath, 'node_modules');
 
 const pkgBin = path.resolve('node_modules', '.bin', process.platform === 'win32' ? 'pkg.cmd' : 'pkg');
-childProcess.execSync(`"${pkgBin}" -t node20-${platform}-${arch} . --out-path ${outputPath} --no-native-build`, {stdio: 'inherit'});
+// Disable bytecode generation to avoid spawning target platform binaries on Windows
+// Also mark all packages public to satisfy pkg requirements when using --no-bytecode
+const pkgArgs = `-t node20-${platform}-${arch} . --out-path ${outputPath} --no-native-build --no-bytecode --public-packages "*" --public`;
+childProcess.execSync(`"${pkgBin}" ${pkgArgs}`, {stdio: 'inherit'});
 
 if (fs.existsSync(outputNodeModules)) {
   const rmDirRecursive = (p) => {

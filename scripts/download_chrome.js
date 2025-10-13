@@ -68,10 +68,11 @@ async function downloadPlaywrightChromiumArm64() {
     await downloadFile(url, zipPath);
     if (embedZipOnly) {
       console.log(`Embedded mode: keeping zip at ${zipPath}`);
-    } else {
-      console.log(`Extracting ${zipPath} into ${outputPath}`);
-      await extract(zipPath, { dir: outputPath });
+      // In embedded mode we only ship the zip; runtime will extract it.
+      return { buildId: `playwright-${buildId}` };
     }
+    console.log(`Extracting ${zipPath} into ${outputPath}`);
+    await extract(zipPath, { dir: outputPath });
 
     // Try to locate the chromium executable within extracted contents
     const candidateDirs = ['chrome-linux', 'chromium-linux-arm64', 'chrome-linux-arm64'];
@@ -99,11 +100,9 @@ async function downloadPlaywrightChromiumArm64() {
     if (!executablePath) {
         throw new Error('Failed to locate chromium executable after extraction');
     }
-    if (!embedZipOnly) {
-      const executableRel = path.relative(outputPath, executablePath);
-      const chromeInfo = { executablePath, executableRel };
-      fs.writeFileSync(path.resolve(outputPath, 'chrome-info.json'), JSON.stringify(chromeInfo));
-    }
+    const executableRel = path.relative(outputPath, executablePath);
+    const chromeInfo = { executablePath, executableRel };
+    fs.writeFileSync(path.resolve(outputPath, 'chrome-info.json'), JSON.stringify(chromeInfo));
     return { buildId: `playwright-${buildId}` };
 }
 
@@ -135,6 +134,17 @@ download()
         }
     })
     .catch((err) => {
+        // If we are in embedded mode for linux-arm64 and the zip exists, do not fail hard.
+        try {
+          if (platform === 'linux' && arch === 'arm64' && embedZipOnly) {
+            const zipPath = path.resolve(outputPath, 'chromium-linux-arm64.zip');
+            if (fs.existsSync(zipPath)) {
+              console.warn('Download error ignored in embedded mode; zip is present at', zipPath);
+              process.exit(0);
+              return;
+            }
+          }
+        } catch (_) {}
         console.error('Failed to download browser:', err && err.message ? err.message : err);
         process.exit(1);
     });
