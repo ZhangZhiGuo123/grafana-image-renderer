@@ -56,7 +56,7 @@ async function main() {
       handshakeConfig: {
         protocolVersion: 2,
         magicCookieKey: 'grafana_plugin_type',
-        magicCookieValue: 'datasource',
+        magicCookieValue: 'renderer',
       },
       versionedPlugins: {
         2: {
